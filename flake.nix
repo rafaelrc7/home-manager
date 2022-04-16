@@ -21,6 +21,14 @@
 
           home.packages = [ pkgs.hello ];
 
+          xdg = {
+            enable = true;
+            userDirs = {
+              enable = true;
+              createDirectories = true;
+            };
+          };
+
           programs.git = {
             enable = true;
             userName = "rafaelrc7";
