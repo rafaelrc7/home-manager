@@ -64,6 +64,8 @@
             };
           };
 
+          services.unclutter.enable = true;
+
           systemd.user.startServices = "sd-switch";
         };
 
