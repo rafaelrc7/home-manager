@@ -29,6 +29,9 @@
             extraConfig = {
               init.defaultBranch = "master";
               user.editor = "nvim";
+              delta.navigate = true;
+              merge.conflictStyle = "diff3";
+              pull.rebase = true;
             };
             signing = {
               signByDefault = true;
@@ -36,9 +39,18 @@
             };
           };
 
+          programs.gh = {
+            enable = true;
+            settings = {
+              editor = "nvim";
+              git_protocol = "ssh";
+            };
+          };
+
           systemd.user.startServices = "sd-switch";
         };
 
+        stateVersion = "22.05";
       };
     };
   };
