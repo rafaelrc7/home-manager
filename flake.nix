@@ -21,6 +21,21 @@
 
           home.packages = [ pkgs.hello ];
 
+          programs.git = {
+            enable = true;
+            userName = "rafaelrc7";
+            userEmail = "rafaelrc7@gmail.com";
+            delta.enable = true;
+            extraConfig = {
+              init.defaultBranch = "master";
+              user.editor = "nvim";
+            };
+            signing = {
+              signByDefault = true;
+              key = "03F104A08E5D7DFE";
+            };
+          };
+
           systemd.user.startServices = "sd-switch";
         };
 
