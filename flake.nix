@@ -89,8 +89,15 @@
             '';
 
             extraPackages = with pkgs; [
-              sumneko-lua-language-server
               clang
+              rust-analyzer
+              elixir_ls
+              nodePackages.vscode-langservers-extracted
+              nodePackages.typescript-language-server
+              nodePackages.pyright
+              sumneko-lua-language-server
+              texlab
+              rnix-lsp
             ];
 
             plugins = with pkgs; with vimPlugins; [
