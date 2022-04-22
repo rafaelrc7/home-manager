@@ -36,10 +36,27 @@
         "type": "github"
       }
     },
+    "nvim-config": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1648497303,
+        "narHash": "sha256-zkvXnQd9F3gP3Lm50CP+DZBL73Q9rdRGncUUZqKNYZQ=",
+        "owner": "rafaelrc7",
+        "repo": "nvimrc",
+        "rev": "31a891c17366424ac96c83a50a8356d356f0ee9f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rafaelrc7",
+        "repo": "nvimrc",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "homeManager": "homeManager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nvim-config": "nvim-config"
       }
     }
   },

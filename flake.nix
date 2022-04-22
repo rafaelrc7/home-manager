@@ -7,9 +7,13 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvim-config = {
+      flake = false;
+      url = "github:rafaelrc7/nvimrc";
+    };
   };
 
-  outputs = { self, nixpkgs, homeManager }: {
+  outputs = { self, nixpkgs, homeManager, nvim-config }: {
     homeConfigurations = {
       "rafael" = homeManager.lib.homeManagerConfiguration rec {
         username = "rafael";
@@ -21,12 +25,10 @@
 
           home.packages = [ pkgs.hello ];
 
-          xdg = {
-            enable = true;
-            userDirs = {
+          xdg.enable = true;
+          xdg.userDirs = {
               enable = true;
               createDirectories = true;
-            };
           };
 
           programs.git = {
@@ -57,6 +59,7 @@
 
           programs.kitty = {
             enable = true;
+            package = pkgs.hello;
             font = {
               package = pkgs.nerdfonts;
               name = "FiraCode Nerd Font Mono";
@@ -70,6 +73,20 @@
               scrollback_pager_history_size = 2048;
               mouse_map = "left click ungrabbed no-op";
             };
+          };
+
+          programs.neovim = {
+            enable = true;
+            viAlias = true;
+            vimAlias = true;
+            vimdiffAlias = true;
+            withPython3 = true;
+            withNodeJs = true;
+          };
+
+          xdg.configFile.nvim = {
+            source = nvim-config;
+            recursive = true;
           };
 
           services.unclutter.enable = true;
