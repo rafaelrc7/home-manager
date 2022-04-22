@@ -23,7 +23,7 @@
         configuration = {pkgs, ...}: {
           programs.home-manager.enable = true;
 
-          home.packages = [ pkgs.hello ];
+          home.packages = with pkgs; [ ];
 
           xdg.enable = true;
           xdg.userDirs = {
@@ -77,19 +77,65 @@
 
           programs.neovim = {
             enable = true;
+
             viAlias = true;
             vimAlias = true;
             vimdiffAlias = true;
             withPython3 = true;
             withNodeJs = true;
+
+            extraConfig =''
+              lua require('init')
+            '';
+
+            extraPackages = with pkgs; [
+              sumneko-lua-language-server
+              clang
+            ];
+
+            plugins = with pkgs; with vimPlugins; [
+              (nvim-treesitter.withPlugins (_: tree-sitter.allGrammars))
+              nvim-compe
+              nvim-lspconfig
+              telescope-nvim
+              popup-nvim
+              plenary-nvim
+              vim-airline
+              tmuxline-vim
+              vimtex
+              markdown-preview-nvim
+              symbols-outline-nvim
+              nvim-jdtls
+              neoformat
+              ultisnips
+              vim-snippets
+              emmet-vim
+              nvim-tree-lua
+              nvim-web-devicons
+              editorconfig-nvim
+              vimspector
+              undotree
+              nerdcommenter
+              delimitMate
+              vim-dispatch-neovim
+              tagbar
+              vim-fugitive
+              gitsigns-nvim
+              gruvbox-nvim
+              neorg
+              presence-nvim
+            ];
           };
 
-          xdg.configFile.nvim = {
-            source = nvim-config;
+          xdg.configFile."nvim/lua" = {
+            source = "${nvim-config}/lua";
             recursive = true;
           };
 
-          services.unclutter.enable = true;
+          services.unclutter = {
+            enable = true;
+            timeout = 3;
+          };
 
           systemd.user.startServices = "sd-switch";
         };
