@@ -101,6 +101,7 @@
             ];
 
             plugins = with pkgs; with vimPlugins; [
+              nvim-treesitter
               #(nvim-treesitter.withPlugins (plugins: tree-sitter.allGrammars))
               nvim-lspconfig
               cmp-nvim-lsp
@@ -111,6 +112,7 @@
               luasnip
               cmp_luasnip
               telescope-nvim
+              telescope-fzy-native-nvim
               popup-nvim
               plenary-nvim
               vim-airline
