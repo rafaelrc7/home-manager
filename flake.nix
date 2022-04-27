@@ -101,7 +101,7 @@
 
               -- CLANGD
               nvim_lsp.clangd.setup {
-                cmd = { "${clang}/bin/clangd" },
+                cmd = { "${clang-tools}/bin/clangd" },
                 on_attach = on_attach,
                 filetypes = { "c", "cpp", "h", "hpp", "objc", "objcpp", "cuda" },
                 root_dir = function() return vim.loop.cwd() end,
