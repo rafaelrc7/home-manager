@@ -23,7 +23,7 @@
         configuration = {pkgs, ...}: {
           programs.home-manager.enable = true;
 
-          home.packages = with pkgs; [ ];
+          home.packages = with pkgs; [ gcc ];
 
           xdg.enable = true;
           xdg.userDirs = {
@@ -101,9 +101,15 @@
             ];
 
             plugins = with pkgs; with vimPlugins; [
-              (nvim-treesitter.withPlugins (_: tree-sitter.allGrammars))
-              nvim-compe
+              #(nvim-treesitter.withPlugins (_: tree-sitter.allGrammars))
               nvim-lspconfig
+              cmp-nvim-lsp
+              cmp-buffer
+              cmp-path
+              cmp-cmdline
+              nvim-cmp
+              luasnip
+              cmp_luasnip
               telescope-nvim
               popup-nvim
               plenary-nvim
@@ -115,7 +121,6 @@
               nvim-jdtls
               neoformat
               ultisnips
-              vim-snippets
               emmet-vim
               nvim-tree-lua
               nvim-web-devicons
@@ -136,7 +141,6 @@
 
           xdg.configFile."nvim/lua" = {
             source = "${nvim-config}/lua";
-            recursive = true;
           };
 
           services.unclutter = {
