@@ -279,7 +279,6 @@
               symbols-outline-nvim
               nvim-jdtls
               neoformat
-              ultisnips
               emmet-vim
               nvim-tree-lua
               nvim-web-devicons
