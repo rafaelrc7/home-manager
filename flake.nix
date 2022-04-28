@@ -2,10 +2,11 @@
   description = "Home Manager configuration flake";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-21.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     homeManager = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     nvim-config = {
       flake = false;
@@ -13,14 +14,26 @@
     };
   };
 
-  outputs = { self, nixpkgs, homeManager, nvim-config }: {
+  outputs = { self, nixpkgs-stable, nixpkgs-unstable, homeManager, nvim-config }: {
     homeConfigurations = {
       "rafael" = homeManager.lib.homeManagerConfiguration rec {
         username = "rafael";
         homeDirectory = "/home/${username}";
         system = "x86_64-linux";
 
+        extraSpecialArgs = {
+          pkgs = import nixpkgs-unstable {
+            inherit system;
+            overlays = [
+              (final: prev: {
+                stable = nixpkgs-stable.legacyPackages."${system}";
+              })
+            ];
+          };
+        };
+
         configuration = {pkgs, ...}: {
+
           programs.home-manager.enable = true;
 
           home.packages = with pkgs; [ gcc ];
@@ -75,7 +88,7 @@
             };
           };
 
-          programs.neovim = {
+          programs.neovim = with pkgs; {
             enable = true;
 
             viAlias = true;
@@ -84,7 +97,7 @@
             withPython3 = true;
             withNodeJs = true;
 
-            extraConfig = with pkgs; ''
+            extraConfig =''
               lua << EOF
               require('init')
 
@@ -124,6 +137,7 @@
 
               -- Haskell (hls)
               nvim_lsp.hls.setup{
+                cmd = { "${haskell-language-server}/bin/haskell-language-server-wrapper", "--lsp" },
                 on_attach = on_attach,
                 capabilities = capabilities,
               };
@@ -193,7 +207,7 @@
               table.insert(runtime_path, "lua/?/init.lua")
 
               nvim_lsp.sumneko_lua.setup {
-                cmd = {"${sumneko-lua-language-server}/bin/lua-language-server"},
+                cmd = {"${pkgs.stable.sumneko-lua-language-server}/bin/lua-language-server"},
                 on_attach = on_attach,
                 settings = {
                   Lua = {
@@ -257,12 +271,12 @@
               EOF
             '';
 
-            extraPackages = with pkgs; [
+            extraPackages = [
               fd
               ripgrep
             ];
 
-            plugins = with pkgs.vimPlugins; [
+            plugins = with vimPlugins; [
               nvim-treesitter
               #(nvim-treesitter.withPlugins (plugins: tree-sitter.allGrammars))
               nvim-lspconfig
