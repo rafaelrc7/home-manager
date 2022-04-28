@@ -320,6 +320,13 @@
             source = "${nvim-config}/lua";
           };
 
+          programs.password-store = {
+            enable = true;
+            settings = {
+              PASSWORD_STORE_KEY = "03F104A08E5D7DFE";
+            };
+          };
+
           services.unclutter = {
             enable = true;
             timeout = 3;
