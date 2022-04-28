@@ -257,7 +257,10 @@
               EOF
             '';
 
-            extraPackages = with pkgs; [ ripgrep ];
+            extraPackages = with pkgs; [
+              fd
+              ripgrep
+            ];
 
             plugins = with pkgs.vimPlugins; [
               nvim-treesitter
