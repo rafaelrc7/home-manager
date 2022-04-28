@@ -257,6 +257,8 @@
               EOF
             '';
 
+            extraPackages = with pkgs; [ ripgrep ];
+
             plugins = with pkgs.vimPlugins; [
               nvim-treesitter
               #(nvim-treesitter.withPlugins (plugins: tree-sitter.allGrammars))
